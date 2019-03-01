@@ -1,0 +1,78 @@
+clear; close all;
+load('C:\Users\Chelsea\Documents\GitHub\BanglaGWSW\SutNalTide.mat')
+
+
+%%
+[pks, locs] = findpeaks(SutDep, 'MinPeakDistance',50);
+location = SutDep(locs, 1);          %time of each peak
+
+[pksN, locsN] = findpeaks(NalDep, 'MinPeakDistance',500);
+locationN = NalDep(locsN, 1);          %time of each peak
+
+Sutt=SutDat3(locs);
+Nalt=NalDat3(locsN);
+Sutd=SutDep(locs);
+Nald=NalDep(locsN);
+
+startpt = datenum('Aug 28, 0015 9:00:00');
+endpt = datenum('Sept 8, 0015  18:30:00');
+
+%calculate lags
+s = find(Sutt >= startpt & Sutt <= endpt);
+n = find(Nalt >= startpt & Nalt <= endpt); %hours
+
+lagdatenum = (Sutt(s)-Nalt(n));
+maxS = datetime(Sutt(s), 'ConvertFrom', 'datenum');
+maxN = datetime(Nalt(n), 'ConvertFrom', 'datenum');
+lag = maxS-maxN;
+maxlag = max(lag); minlag = min(lag);
+meanlag = mean(lag);
+%% Plot
+h=figureFullScreen('Name','Sutarkhali vs Nalian');
+set(gcf, 'Color', [1,1,1]);
+subplot(211)
+plot(NalDat3, NalDep);
+hold on
+plot(SutDat3, SutDep,'r');
+datetick('x', 'keep);
+plot(Sutt(s),Sutd(s), 'ro');
+plot(Nalt(n),Nald(n), 'bo');
+xlabel('Date');
+ylabel('Depth of Water Column Above Instrument (m)');
+title('\bf \fontsize{24} Sutarkhali vs. Nalian');
+legend('Nalian','Sutarkhali');
+
+xlim([startpt endpt]);
+
+subplot(212)
+plot(Nalt(n),lag, '*');
+datetick('x');
+ylabel('Lag (hh:mm:ss)');
+xlabel('Date');
+xlim([startpt endpt]);
+
+%%
+%spring
+lt_s = (location(location >= startptshort & location <= endptshort)-startptshort)*24;
+la_s = (location1a(location1a >= startptshort & location1a <= endptshort)-startptshort)*24; %hours
+lb_s = (location1b(location1b >= startptshort & location1b <= endptshort)-startptshort)*24;%lalt_s = (la_s-lt_s)*60; %minutes
+lblt_s = (lb_s-lt_s)*60; 
+lalt_s = (la_s-lt_s)*60; 
+
+%neap
+lt_n = (location(location >= startptshort2 & location <= endptshort2)-startptshort2)*24;
+la_n = (location1a(location1a >= startptshort2 & location1a <= endptshort2)-startptshort2)*24; %hours
+lb_n = (location1b(location1b >= startptshort2 & location1b <= endptshort2)-startptshort2)*24;
+lalt_n = (la_n-lt_n)*60; %minutes
+lblt_n = (lb_n-lt_n)*60;
+
+%lags
+lalt_s = (la_s-lt_s)*60; 
+lblt_s = (lb_s-lt_s)*60; 
+lalt_n = (la_n-lt_n)*60; %minutes
+lblt_n = (lb_n-lt_n)*60;
+Name = {'A','B','An','Bn'};
+LagTable = table(lalt_s,lalt_n,lblt_s, lblt_n);
+
+plot(Bnew(locs1b,1), pks1b, 'o','MarkerSize',3, 'Color','red','MarkerFaceColor', 'red');
+  
