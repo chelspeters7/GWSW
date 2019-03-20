@@ -100,9 +100,9 @@ H2=figureFullScreen('Name','Spring and Neap Tide w/ Lags for Site 1');
             datetick('x', 'hhPM', 'Keepticks')
             title('\bf \fontsize{24} Spring Tide')
             ylabel('Water Level (cm)') 
-        plot(B(locs1b,1), pks1b, 'o', 'Color','red','MarkerFaceColor', 'red');
-        plot(A(locs1a,1), pks1a, 'o', 'Color', 'blue','MarkerFaceColor', 'blue');
-        plot(tidal(locs,1), pks, 'o', 'Color', 'black','MarkerFaceColor', 'black');
+        plot(B(locs1b,1), pks1b, 'o', 'Color','red','MarkerFaceColor', 'red','LineWidth', 2);
+        plot(A(locs1a,1), pks1a, 'o', 'Color', 'blue','MarkerFaceColor', 'blue','LineWidth', 2);
+        plot(tidal(locs,1), pks, 'o', 'Color', 'black','MarkerFaceColor', 'black','LineWidth', 2);
             tt2 = tidal(locs,1)';  formatOut = 'HH:MM AM'; ttt = datestr(tt2, formatOut);
             at = A(locs1a,1)';   att = datestr(at, formatOut);
             bt = B(locs1b,1)';   btt = datestr(bt, formatOut);
